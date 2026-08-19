@@ -1,0 +1,72 @@
+{
+  "documents": [
+    {
+      "s": "bouillon-de-legumes",
+      "t": "Bouillon de légumes",
+      "g": [
+        "base",
+        "vegetarien"
+      ],
+      "i": [
+        "carotte",
+        "poireau",
+        "céleri branche",
+        "oignon jaune",
+        "thym",
+        "laurier",
+        "eau",
+        "sel fin"
+      ],
+      "m": 60,
+      "c": "base"
+    },
+    {
+      "s": "pate-a-crepes",
+      "t": "Pâte à crêpes",
+      "g": [
+        "dessert",
+        "gouter",
+        "vegetarien",
+        "famille"
+      ],
+      "i": [
+        "farine de blé",
+        "œuf",
+        "lait entier",
+        "sucre en poudre",
+        "sel fin",
+        "beurre doux"
+      ],
+      "m": 90,
+      "c": "dessert"
+    },
+    {
+      "s": "spaghetti-a-la-tomate",
+      "t": "Spaghetti à la tomate",
+      "g": [
+        "plat-principal",
+        "vegetarien"
+      ],
+      "i": [
+        "spaghetti",
+        "tomate pelée",
+        "ail",
+        "huile d'olive",
+        "basilic frais",
+        "parmesan",
+        "sel fin",
+        "poivre noir"
+      ],
+      "m": 35,
+      "c": "plat-principal"
+    }
+  ],
+  "libellesTags": {
+    "base": "Base",
+    "vegetarien": "Végétarien",
+    "dessert": "Dessert",
+    "gouter": "Goûter",
+    "famille": "Famille",
+    "plat-principal": "Plat principal"
+  }
+}

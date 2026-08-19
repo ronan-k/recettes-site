@@ -1,0 +1,1550 @@
+/*
+ * Feuille de style du site.
+ *
+ * Priorité : se relire depuis un téléphone posé sur un plan de travail, à bout de
+ * bras, avec les mains occupées. D'où un corps de texte large, des lignes courtes,
+ * et des cibles tactiles d'au moins 44 points — la zone cliquable primant sur la
+ * taille visuelle de l'icône (R48).
+ *
+ * Aucune surface ne se présente vide sans contenu de repli (R47) : les classes
+ * `*__vide` portent les messages d'orientation, et elles sont stylées comme du
+ * contenu, pas comme une erreur.
+ *
+ * **Les couleurs sont assumées.** Une palette de cuisine des années soixante-dix —
+ * terre cuite, moutarde, avocat, turquoise, framboise — et non un seul accent posé
+ * sur du gris. Elle a un travail à faire, pas seulement une humeur à donner :
+ * aucune recette n'a de photo, donc c'est la couleur de catégorie qui distingue
+ * une carte d'une autre dans une grille. Chaque catégorie porte la sienne par
+ * `data-categorie`, et une catégorie inconnue retombe sur l'accent du site plutôt
+ * que de perdre sa couleur.
+ *
+ * **Deux largeurs de page**, selon ce qu'on y fait. Lire une recette veut une
+ * colonne courte ; parcourir une grille de cartes veut de la place. La classe de
+ * corps posée par le rendu tranche, ce qui évite qu'un écran large affiche un
+ * ruban de contenu au milieu de deux déserts.
+ */
+
+/*
+ * **Deux familles de couleurs, et c'est la clé de la gaieté.**
+ *
+ * Une première version assombrissait chaque teinte pour qu'elle tienne le
+ * contraste en tant que texte. Résultat : une palette de terre cuite éteinte,
+ * juste sur le papier et triste à l'écran. Or les règles de contraste portent sur
+ * le **texte**, pas sur un bandeau ni sur une pastille.
+ *
+ * D'où la séparation : les teintes vives (`--mandarine`, `--soleil`…) habillent
+ * les **surfaces** — bandeaux, pastilles, boutons — et le texte posé dessus est
+ * l'encre sombre du site, qui passe sur chacune d'elles. Les variantes `-encre`
+ * existent pour le seul cas où la couleur doit être du texte sur le fond clair :
+ * un lien, un intitulé.
+ */
+/*
+ * La police du site : OpenDyslexic, lettres à base lestée.
+ *
+ * Choix de l'auteur, qui la lit plus facilement — le poids en bas de chaque
+ * lettre l'empêche de basculer à l'œil, un « b » ne se lit pas « d ». Elle est
+ * servie par le site plutôt qu'espérée sur l'appareil du lecteur : personne ne
+ * l'a installée sur son téléphone.
+ *
+ * Elle est **sous-ensemblée au français** : 103 Ko par graisse à l'origine, 10 Ko
+ * après. Le site est fait pour s'ouvrir depuis une cuisine, sur un réseau qui
+ * n'est pas toujours bon, et deux cent onze kilo-octets de police auraient pesé
+ * plus lourd que tout le reste réuni. Provenance, licence et commande de
+ * sous-ensemble : `fonts/PROVENANCE.txt`, servi avec elle.
+ *
+ * `font-display: swap` : le texte s'affiche tout de suite dans la police système,
+ * puis bascule. Attendre la police, c'est une page blanche sur un réseau lent.
+ *
+ * Les adresses sont **relatives à la feuille** : elle est servie sous
+ * `/assets/style.<empreinte>.css`, donc `./fonts/…` désigne `/assets/fonts/…`
+ * quel que soit le chemin de base, sans que R50 ait à intervenir.
+ */
+@font-face {
+  font-family: "OpenDyslexic";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/opendyslexic-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "OpenDyslexic";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./fonts/opendyslexic-bold.woff2") format("woff2");
+}
+
+:root {
+  --fond: #fff8ec;
+  --fond-carte: #ffffff;
+  --fond-doux: #ffeed3;
+  --encre: #241a12;
+  --encre-douce: #6d5847;
+  --trait: #f0dcbe;
+
+  /* Les vives, pour les surfaces. */
+  --accent: #ff6b2c;
+  --accent-doux: #ffe3d0;
+  --soleil: #ffc233;
+  --avocat: #8cc63f;
+  --turquoise: #14c3bd;
+  --framboise: #ff4d79;
+  --aubergine: #9b7ae0;
+
+  /* Les mêmes, en version texte : contraste tenu sur le fond clair. */
+  --accent-encre: #c0410f;
+  --avocat-encre: #4d7305;
+  --turquoise-encre: #0a6f6b;
+  --alerte: #b3271a;
+
+  --police: "OpenDyslexic", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --cible: 44px;
+  --rayon: 1.15rem;
+  --rayon-pastille: 999px;
+  --ombre-carte: 0 1px 2px rgb(64 32 8 / 6%), 0 10px 24px -14px rgb(64 32 8 / 35%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fond: #191210;
+    --fond-carte: #241a15;
+    --fond-doux: #33241b;
+    --encre: #fbf1e4;
+    --encre-douce: #c3ab95;
+    --trait: #453226;
+
+    /* Les vives restent vives : c'est sur fond sombre qu'elles portent le mieux,
+       et les assombrir ici referait la faute que la version claire a corrigée. */
+    --accent: #ff7d43;
+    --accent-doux: #40251a;
+    --soleil: #ffc94f;
+    --avocat: #9ed254;
+    --turquoise: #2ad3cd;
+    --framboise: #ff6b90;
+    --aubergine: #b69bf0;
+
+    --accent-encre: #ff9a6a;
+    --avocat-encre: #b3e065;
+    --turquoise-encre: #4fdcd6;
+    --alerte: #ff8f80;
+
+    --ombre-carte: 0 1px 2px rgb(0 0 0 / 40%), 0 12px 28px -16px rgb(0 0 0 / 70%);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--fond);
+  color: var(--encre);
+  font-family: var(--police);
+  /* Un cran sous la taille précédente : les lettres d'OpenDyslexic sont larges et
+     hautes, et la même valeur donnait des lignes trop longues sur téléphone. */
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--accent-encre);
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.saut-au-contenu {
+  position: absolute;
+  left: -9999px;
+}
+
+.saut-au-contenu:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 10;
+  background: var(--fond-carte);
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--accent);
+  border-radius: 0.5rem;
+}
+
+/* Visible pour un lecteur d'écran, absent de l'écran : c'est ce support qui
+   porte l'annonce du nombre de suggestions. `clip-path` plutôt que
+   `display: none`, qui la retirerait aussi de l'arbre d'accessibilité. */
+.visuellement-cache {
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/* ------------------------------------------------------------------ chrome */
+
+/*
+ * Le bandeau de couleurs sous l'en-tête et au-dessus du pied.
+ *
+ * C'est la signature du site, et elle ne coûte ni image ni requête : cinq bandes
+ * de dégradé, **festonnées** par un masque de disques. Le feston est ce qui
+ * distingue une signature d'un filet de gabarit — un bord de nappe, une croûte de
+ * tarte — et là où le masque n'est pas reconnu, le bandeau reste un rectangle de
+ * couleur : la dégradation est un dessin plus sobre, pas une page cassée.
+ *
+ * Les cinq couleurs sont celles des catégories : ce qu'on voit en haut de page est
+ * le vocabulaire chromatique des cartes.
+ */
+.entete::after,
+.pied::before {
+  background: linear-gradient(
+    90deg,
+    var(--accent) 0 20%,
+    var(--soleil) 20% 40%,
+    var(--avocat) 40% 60%,
+    var(--turquoise) 60% 80%,
+    var(--framboise) 80% 100%
+  );
+  content: "";
+  display: block;
+  height: 10px;
+  -webkit-mask: radial-gradient(circle at 8px 0, transparent 7px, #000 7.5px) 0 0 / 16px 10px
+    repeat-x;
+  mask: radial-gradient(circle at 8px 0, transparent 7px, #000 7.5px) 0 0 / 16px 10px repeat-x;
+}
+
+/* Sous l'en-tête, les festons pendent ; au-dessus du pied, ils remontent. */
+.entete::after {
+  -webkit-mask: radial-gradient(circle at 8px 10px, transparent 7px, #000 7.5px) 0 0 / 16px 10px
+    repeat-x;
+  mask: radial-gradient(circle at 8px 10px, transparent 7px, #000 7.5px) 0 0 / 16px 10px repeat-x;
+}
+
+/* Le bandeau reste **dans le flux** de l'en-tête, sous son contenu : posé en
+   absolu, il recouvrait les premiers pixels de la page — visible dès qu'une page
+   commence sans marge haute.
+   L'en-tête porte le fond de la page et non celui des cartes : les creux du feston
+   laissent voir ce qui est derrière, et sur une surface blanche ils auraient dessiné
+   une seconde rupture entre le blanc et la crème. */
+.entete {
+  background: var(--fond);
+}
+
+.entete__interieur {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0 auto;
+  max-width: 74rem;
+  padding: 0.6rem 1.25rem;
+}
+
+.entete__marque {
+  align-items: center;
+  color: var(--encre);
+  display: inline-flex;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  min-height: var(--cible);
+  text-decoration: none;
+}
+
+/* Un point de couleur après le nom du site. Une seule fantaisie, tenue. */
+.entete__marque::after {
+  background: var(--accent);
+  border-radius: 50%;
+  content: "";
+  height: 0.42rem;
+  margin-left: 0.22rem;
+  margin-top: 0.55rem;
+  width: 0.42rem;
+}
+
+/*
+ * La recherche vit dans l'en-tête, sur toutes les pages.
+ *
+ * C'est un formulaire `GET` vers la page de recherche, et non un champ câblé en
+ * JavaScript : sur les six autres pages du site, le module de recherche n'est pas
+ * chargé, et un champ qui ne répondrait pas à la touche Entrée serait un piège. La
+ * page de recherche lit `?q=` à l'ouverture, ce qui rend au passage une recherche
+ * partageable par son adresse.
+ */
+.entete__recherche {
+  display: flex;
+  flex: 1 1 100%;
+  gap: 0.4rem;
+  order: 3;
+}
+
+.entete__champ {
+  background: var(--fond-carte);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon-pastille);
+  color: var(--encre);
+  flex: 1 1 auto;
+  font: inherit;
+  /* 16 px au moins : en dessous, iOS zoome à la mise au point et le lecteur perd
+     la page des yeux. */
+  font-size: max(1rem, 16px);
+  min-height: var(--cible);
+  min-width: 0;
+  padding: 0 0.9rem;
+}
+
+.entete__loupe {
+  background: var(--accent);
+  border: 0;
+  border-radius: var(--rayon-pastille);
+  /* De l'encre sur la couleur, jamais du blanc : c'est ce qui rend l'orange
+     utilisable en surface tout en restant lisible. */
+  color: var(--encre);
+  cursor: pointer;
+  font-size: 1.2rem;
+  min-height: var(--cible);
+  min-width: var(--cible);
+  transition: transform 120ms ease;
+}
+
+.entete__loupe:active {
+  transform: scale(0.94);
+}
+
+/* Sur la page de recherche, le champ de l'en-tête disparaît : la page a le sien,
+   plus complet, en haut. Deux champs de recherche à l'écran ne disent pas lequel
+   fait quoi. */
+body.page-recherche .entete__recherche {
+  display: none;
+}
+
+.entete__nav {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.entete__nav a {
+  align-items: center;
+  border-radius: var(--rayon-pastille);
+  display: inline-flex;
+  font-size: 0.95rem;
+  min-height: var(--cible);
+  padding: 0 0.7rem;
+  text-decoration: none;
+}
+
+.entete__nav a:hover,
+.entete__nav a:focus-visible {
+  background: var(--accent-doux);
+}
+
+.contenu {
+  margin: 0 auto;
+  /* Lire une recette : une colonne courte, mesurée sur la longueur de ligne. */
+  max-width: 44rem;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+/* Parcourir : la place pour une grille. */
+body.page-accueil .contenu,
+body.page-recherche .contenu,
+body.page-favoris .contenu,
+body.page-introuvable .contenu {
+  max-width: 74rem;
+}
+
+.pied {
+  border-top: 1px solid var(--trait);
+  color: var(--encre-douce);
+  font-size: 0.9rem;
+  margin-top: 2rem;
+  padding: 0;
+  text-align: center;
+}
+
+.pied p {
+  padding: 1.25rem;
+}
+
+/* --------------------------------------------------------------- typographie */
+
+h1,
+h2,
+h3,
+.carte__titre,
+.entete__marque {
+  font-family: var(--police);
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 1.65rem;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+  text-wrap: balance;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+h3 {
+  font-size: 1.05rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.accueil__intro,
+.recette__resume {
+  color: var(--encre-douce);
+  margin-top: 0;
+}
+
+/* --------------------------------------------------------------- catalogue */
+
+.accueil__titre {
+  /* Le trait de couleur sous le titre d'accueil : la même main que le bandeau. */
+  padding-bottom: 0.4rem;
+}
+
+.accueil__section {
+  margin-top: 2.5rem;
+}
+
+/*
+ * Un titre de section porte un tiret de couleur, pas un filet gris sur toute la
+ * largeur. Le filet coupait la page en tranches ; le tiret désigne le titre.
+ */
+.accueil__section h2,
+.recette__entete-section h2,
+.favoris__titre,
+.recherche__titre {
+  position: relative;
+}
+
+.accueil__section h2::after,
+.recette__entete-section h2::after,
+.accueil__titre::after,
+.favoris__titre::after,
+.recherche__titre::after {
+  background: var(--accent);
+  border-radius: 999px;
+  content: "";
+  display: block;
+  height: 5px;
+  margin-top: 0.45rem;
+  width: 3rem;
+}
+
+/* Le titre de l'accueil porte les trois premières couleurs, comme une enseigne. */
+.accueil__titre::after {
+  background: linear-gradient(
+    90deg,
+    var(--accent) 0 34%,
+    var(--soleil) 34% 67%,
+    var(--framboise) 67% 100%
+  );
+  width: 5.5rem;
+}
+
+.accueil__section--avant h2::after {
+  background: var(--soleil);
+}
+
+.catalogue {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+}
+
+/*
+ * La carte.
+ *
+ * Le lien couvre la carte entière : viser un titre de deux mots sur un téléphone
+ * tenu d'une main ne marche pas (R48). Le bouton de retrait des favoris est le
+ * seul élément qui vit à côté du lien, jamais dedans.
+ */
+.carte {
+  --couleur: var(--accent);
+  background: var(--fond-carte);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre-carte);
+  overflow: hidden;
+  position: relative;
+  transition: border-color 140ms ease, transform 140ms ease, box-shadow 140ms ease;
+}
+
+/* La carte se soulève au survol, et le pointeur ne se contente pas de changer de
+   forme. Sur un écran tactile, rien de tout cela ne se voit — c'est pourquoi le
+   dessin ne repose pas dessus. */
+.carte:hover {
+  box-shadow: 0 2px 4px rgb(64 32 8 / 8%), 0 18px 32px -18px color-mix(in srgb, var(--couleur) 60%, transparent);
+  transform: translateY(-2px);
+}
+
+/*
+ * Une couleur par nature de plat, sur les identifiants **du référentiel**.
+ *
+ * Seuls ceux qui peuvent atteindre une carte figurent ici : le moteur n'y met
+ * qu'un tag de catégorie « type-de-plat », plus le repli sur le type de la recette
+ * — « plat » ou « base » — quand la recette n'en porte aucun. Écrire une règle
+ * pour « vegetarien » serait une couleur qu'aucune carte ne peut prendre.
+ *
+ * Une nature ajoutée au référentiel sans règle ici prend l'accent du site : elle
+ * se voit, elle ne casse rien, et la corriger est une ligne.
+ */
+.carte[data-categorie="dessert"] {
+  --couleur: var(--framboise);
+}
+
+.carte[data-categorie="plat-principal"],
+.carte[data-categorie="plat"] {
+  --couleur: var(--avocat);
+}
+
+.carte[data-categorie="base"] {
+  --couleur: var(--soleil);
+}
+
+/* La barre haute de couleur : c'est elle qui rend une grille sans photo lisible
+   d'un coup d'œil. */
+.carte::before {
+  background: var(--couleur);
+  content: "";
+  display: block;
+  height: 9px;
+}
+
+.carte:hover,
+.carte:focus-within {
+  border-color: var(--couleur);
+}
+
+.carte__lien {
+  color: inherit;
+  display: block;
+  text-decoration: none;
+}
+
+.carte__corps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  /* La hauteur minimale vaut une cible tactile pleine, même sur une carte au
+     titre d'un seul mot. */
+  min-height: var(--cible);
+  padding: 0.85rem 1rem 1rem;
+}
+
+.carte__vignette {
+  aspect-ratio: 4 / 3;
+  display: block;
+  object-fit: cover;
+  width: 100%;
+}
+
+/*
+ * La pastille porte la **couleur pleine**, avec l'encre du site par-dessus.
+ *
+ * La version précédente teintait le fond à 20 % et fonçait le texte : lisible,
+ * et fade — la couleur ne se voyait plus qu'en trace. Une teinte vive derrière de
+ * l'encre sombre passe le contraste sur les cinq couleurs, et se voit de loin.
+ */
+.carte__categorie {
+  align-self: start;
+  background: var(--couleur);
+  border-radius: var(--rayon-pastille);
+  color: var(--encre);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.65rem;
+  text-transform: uppercase;
+}
+
+.carte__titre {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.carte__lien:hover .carte__titre,
+.carte__lien:focus-visible .carte__titre {
+  text-decoration: underline;
+}
+
+.carte__meta {
+  color: var(--encre-douce);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  gap: 0.5rem;
+}
+
+.carte__note {
+  font-style: italic;
+}
+
+/* Les mises en avant : le liseré coloré au lieu d'une bordure de plus. */
+.catalogue--avant .carte {
+  box-shadow: 0 0 0 1px var(--couleur);
+}
+
+.catalogue__vide,
+.ingredients__vide,
+.etapes__vide {
+  color: var(--encre-douce);
+  font-style: italic;
+  list-style: none;
+  padding: 0.5rem 0;
+}
+
+/* ----------------------------------------------------------------- recette */
+
+.recette__image {
+  margin: 0 0 1.5rem;
+}
+
+.recette__image img {
+  border-radius: var(--rayon);
+  display: block;
+  width: 100%;
+}
+
+.recette__titre {
+  margin-bottom: 0.35rem;
+}
+
+.recette__section {
+  background: var(--fond-carte);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre-carte);
+  margin-top: 1.5rem;
+  padding: 1rem 1.15rem 1.15rem;
+}
+
+.recette__entete-section {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  justify-content: space-between;
+}
+
+.recette__sous-titre {
+  color: var(--encre-douce);
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.criteres {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+}
+
+/* Les critères sont des pastilles : trois lignes de texte gris se lisaient comme
+   une note de bas de page, alors qu'un allergène est l'information qu'on cherche
+   en premier. */
+.critere {
+  background: var(--fond-doux);
+  border-radius: var(--rayon-pastille);
+  padding: 0.25rem 0.8rem;
+}
+
+.critere__intitule {
+  font-weight: 600;
+}
+
+.critere--allergene {
+  background: color-mix(in srgb, var(--alerte) 16%, var(--fond-carte));
+  color: color-mix(in srgb, var(--alerte) 78%, var(--encre));
+}
+
+.critere--regime {
+  background: color-mix(in srgb, var(--avocat) 32%, var(--fond-carte));
+  color: var(--encre);
+}
+
+/* « Indéterminé » se distingue visuellement d'« absent » : un lecteur allergique
+   lit une exemption comme une affirmation, et l'incertitude doit se voir. */
+.critere--indetermine {
+  background: transparent;
+  border: 1px dashed var(--trait);
+  color: var(--encre-douce);
+  font-style: italic;
+}
+
+.ingredients,
+.sous-recettes {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+
+.ingredient,
+.sous-recette {
+  border-bottom: 1px solid var(--trait);
+  padding: 0.2rem 0;
+}
+
+.ingredient:last-child,
+.sous-recette:last-child {
+  border-bottom: 0;
+}
+
+.sous-recette {
+  padding: 0.55rem 0;
+}
+
+.ingredient__quantite {
+  color: var(--accent-encre);
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  min-width: 6.5rem;
+}
+
+.ingredient__note,
+.ingredient__provenance {
+  color: var(--encre-douce);
+  font-size: 0.9rem;
+}
+
+.etapes {
+  margin: 0.75rem 0 0;
+  padding-left: 1.6rem;
+}
+
+/* Le numéro d'étape est un repère, pas une ponctuation : on le retrouve des yeux
+   après avoir regardé la casserole. */
+.etape::marker {
+  color: var(--accent-encre);
+  font-size: 1.1em;
+  font-weight: 700;
+}
+
+.etape {
+  margin-bottom: 0.6rem;
+  padding-left: 0.25rem;
+}
+
+/* L'intitulé de groupe des étapes (R7) : un titre, frère de sa liste.
+   La marge haute sépare deux moments du déroulé ; le premier intitulé n'a rien
+   au-dessus de lui à séparer, et la liste qui suit immédiatement un intitulé ne
+   redouble pas l'écart. */
+.etapes__groupe {
+  color: var(--turquoise-encre);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin: 1.5rem 0 0.3rem;
+  text-transform: uppercase;
+}
+
+.etapes__groupe:first-of-type {
+  margin-top: 0.75rem;
+}
+
+.etapes__groupe + .etapes {
+  margin-top: 0;
+}
+
+.variantes {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+
+.variante {
+  border-bottom: 1px solid var(--trait);
+  padding: 0.55rem 0;
+}
+
+.variante:last-child {
+  border-bottom: 0;
+}
+
+.variante__libelle {
+  font-weight: 600;
+}
+
+.variante__allergenes {
+  color: var(--encre-douce);
+  font-size: 0.9rem;
+}
+
+/* --------------------------------------------- redirection et introuvable */
+
+.redirection__note {
+  color: var(--encre-douce);
+  font-size: 0.95rem;
+}
+
+.introuvable__action,
+.favoris__vide .bouton {
+  align-items: center;
+  background: var(--accent);
+  border: 0;
+  border-radius: var(--rayon-pastille);
+  color: var(--encre);
+  display: inline-flex;
+  font-weight: 600;
+  min-height: var(--cible);
+  padding: 0 1.35rem;
+  text-decoration: none;
+}
+
+/* ---------------------------------------------------------------- boutons */
+
+.bouton {
+  background: var(--fond-doux);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon-pastille);
+  color: var(--encre);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 500;
+  min-height: var(--cible);
+  padding: 0 1.15rem;
+  transition: transform 120ms ease, border-color 120ms ease;
+}
+
+.bouton:hover,
+.bouton:focus-visible {
+  border-color: var(--accent);
+}
+
+/* L'appui se sent : sur un plan de travail, les mains occupées, un bouton qui ne
+   répond pas visuellement se fait appuyer deux fois. */
+.bouton:active {
+  transform: scale(0.97);
+}
+
+/* Le mode cuisine est l'action principale d'une fiche : elle se voit. */
+.bouton--cuisine {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--encre);
+  font-weight: 700;
+}
+
+.bouton--favori[aria-pressed="true"] {
+  background: var(--soleil);
+  border-color: var(--soleil);
+  color: var(--encre);
+  font-weight: 600;
+}
+
+.recette__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.25rem 0;
+}
+
+/* ---------------------------------------------------------------- échelle */
+
+/*
+ * Le sélecteur d'échelle. Boutons et champ mesurent une cible tactile pleine :
+ * on s'en sert avec les mains occupées, parfois d'une seule main (R48).
+ */
+.echelle {
+  align-items: stretch;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.echelle__bouton {
+  background: var(--fond-doux);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon-pastille);
+  color: var(--encre);
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  min-height: var(--cible);
+  min-width: var(--cible);
+}
+
+.echelle__bouton:hover {
+  border-color: var(--accent);
+}
+
+.echelle__label {
+  align-items: center;
+  display: flex;
+  gap: 0.35rem;
+}
+
+.echelle__champ {
+  background: var(--fond);
+  border: 1px solid var(--trait);
+  border-radius: 0.6rem;
+  color: var(--encre);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  min-height: var(--cible);
+  padding: 0 0.5rem;
+  text-align: center;
+  width: 4.5rem;
+}
+
+.echelle__intitule {
+  color: var(--encre-douce);
+  font-size: 0.9rem;
+}
+
+/* --------------------------------------------------------------- recherche */
+
+/*
+ * Sur écran large, les filtres tiennent une colonne et les résultats l'autre :
+ * empilés, ils repoussaient les cartes sous la ligne de flottaison, et il fallait
+ * remonter pour changer un critère.
+ */
+@media (min-width: 62rem) {
+  .recherche {
+    align-items: start;
+    column-gap: 2.5rem;
+    display: grid;
+    grid-template-columns: 18rem 1fr;
+  }
+
+  .recherche__titre {
+    grid-column: 1 / -1;
+  }
+
+  .recherche__form {
+    position: sticky;
+    top: 1.5rem;
+  }
+}
+
+.recherche__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.recherche__label {
+  color: var(--encre-douce);
+  font-size: 0.95rem;
+}
+
+.recherche__champ {
+  background: var(--fond-carte);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon-pastille);
+  color: var(--encre);
+  font: inherit;
+  /* 16 px au moins : en dessous, iOS zoome à la mise au point et le lecteur
+     perd la page des yeux. */
+  font-size: max(1rem, 16px);
+  min-height: var(--cible);
+  padding: 0 0.9rem;
+  width: 100%;
+}
+
+/* Le champ texte de la page est le point d'entrée : il est plus grand que les
+   autres champs, et il est le premier élément après le titre. */
+.recherche__champ--principal {
+  font-size: max(1.1rem, 16px);
+  min-height: 3.25rem;
+}
+
+.recherche__bloc {
+  background: var(--fond-carte);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0.85rem;
+}
+
+.recherche__bloc legend,
+.recherche__depliant > summary {
+  color: var(--encre-douce);
+  font-size: 0.95rem;
+  padding: 0 0.3rem;
+}
+
+/*
+ * Le bloc d'ingrédients est replié par défaut.
+ *
+ * C'est un filtre secondaire — on cherche d'abord par titre — et déplié il occupe
+ * un écran de téléphone à lui seul, ce qui repoussait les résultats hors de vue.
+ * `details` plutôt qu'un bouton : il se replie sans JavaScript.
+ */
+.recherche__depliant {
+  background: var(--fond-carte);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  padding: 0.5rem 0.85rem;
+}
+
+.recherche__depliant > summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  min-height: var(--cible);
+}
+
+.recherche__depliant[open] {
+  padding-bottom: 0.85rem;
+}
+
+.recherche__depliant[open] > summary {
+  border-bottom: 1px solid var(--trait);
+  margin-bottom: 0.6rem;
+}
+
+.recherche__aide {
+  color: var(--encre-douce);
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0;
+}
+
+.facettes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Les catégories sont des pastilles cochables : une colonne de cases à cocher
+   prenait la hauteur de la page, et on ne voyait plus les résultats. */
+.facette {
+  align-items: center;
+  background: var(--fond-doux);
+  border-radius: var(--rayon-pastille);
+  cursor: pointer;
+  display: flex;
+  gap: 0.4rem;
+  min-height: var(--cible);
+  padding: 0 0.85rem;
+}
+
+.facette:has(input:checked) {
+  background: var(--accent-doux);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.facette__compte {
+  color: var(--encre-douce);
+  font-size: 0.85rem;
+}
+
+/* La liste de suggestions se superpose au contenu : sur un écran de téléphone,
+   pousser le reste de la page à chaque frappe déplacerait ce que le lecteur
+   vise. */
+.autocomplete {
+  position: relative;
+}
+
+.autocomplete__liste {
+  background: var(--fond-carte);
+  border: 1px solid var(--trait);
+  border-radius: 0.6rem;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 12%);
+  list-style: none;
+  margin: 0.25rem 0 0;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+}
+
+.suggestion {
+  cursor: pointer;
+  min-height: var(--cible);
+  padding: 0.6rem;
+}
+
+.suggestion--active {
+  background: var(--accent-doux);
+}
+
+.suggestion--vide {
+  color: var(--encre-douce);
+  cursor: default;
+}
+
+.pastilles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pastille {
+  align-items: center;
+  background: color-mix(in srgb, var(--avocat) 34%, var(--fond-carte));
+  border-radius: var(--rayon-pastille);
+  display: flex;
+  font-size: 0.95rem;
+  gap: 0.2rem;
+  padding-left: 0.8rem;
+}
+
+.pastille__retirer {
+  background: none;
+  border: 0;
+  color: var(--encre);
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  min-height: var(--cible);
+  min-width: var(--cible);
+}
+
+/* Les trois états transitoires se distinguent : le chargement est neutre,
+   l'erreur est marquée, l'absence de résultat est du contenu. */
+.recherche__etat {
+  color: var(--encre-douce);
+  margin: 1rem 0;
+}
+
+.recherche__etat--erreur {
+  background: color-mix(in srgb, var(--alerte) 8%, var(--fond-carte));
+  border-left: 4px solid var(--alerte);
+  border-radius: 0 var(--rayon) var(--rayon) 0;
+  color: var(--encre);
+  padding: 0.75rem 1rem;
+}
+
+.recherche__compte {
+  font-size: 1.15rem;
+  margin: 0 0 0.5rem;
+}
+
+.recherche__compte::after {
+  background: var(--soleil);
+  border-radius: 2px;
+  content: "";
+  display: block;
+  height: 3px;
+  margin-top: 0.35rem;
+  width: 2.5rem;
+}
+
+.recherche__inconnues h3 {
+  color: var(--encre-douce);
+  font-size: 1rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+/* ------------------------------------------------- cochage et zones tactiles */
+
+/* L'étiquette couvre toute la ligne : viser une case de 16 pixels sur un plan de
+   travail, les mains occupées, ne marche pas. La zone cliquable prime sur la
+   taille visuelle de la case (R48). */
+.coche {
+  align-items: flex-start;
+  cursor: pointer;
+  display: flex;
+  gap: 0.6rem;
+  min-height: var(--cible);
+  /* Le remplissage étend la zone bien au-delà de la case elle-même. */
+  padding: 0.5rem 0.25rem;
+  width: 100%;
+}
+
+.coche__case {
+  accent-color: var(--accent);
+  flex: 0 0 auto;
+  height: 1.4rem;
+  /* Aligné sur la première ligne de texte, pas centré sur un paragraphe de
+     quatre lignes. */
+  margin-top: 0.15rem;
+  width: 1.4rem;
+}
+
+.coche__texte {
+  flex: 1 1 auto;
+}
+
+/* Une ligne cochée s'efface sans disparaître : on doit pouvoir revenir. */
+[data-cochee] > .coche > .coche__texte {
+  color: var(--encre-douce);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+/* --------------------------------------------------------------- mode cuisine */
+
+/*
+ * Le plein écran est obtenu par cette feuille, pas par l'API Fullscreen : Safari
+ * sur iPhone ne l'offre pas pour un élément arbitraire, et c'est la plateforme
+ * visée. `100dvh` suit la barre d'outils escamotable — `100vh` laisserait la barre
+ * de navigation recouvrir le pied d'écran — et les marges de sécurité gèrent les
+ * encoches, le document portant déjà `viewport-fit=cover`.
+ *
+ * **Ce que le mode donne à l'étape, il le prend ailleurs.** L'écran est petit :
+ * une liste d'ingrédients et une barre à trois rangées ne laissaient à l'étape
+ * courante qu'une fenêtre étroite, alors qu'elle est la seule chose qu'on lit à
+ * bout de bras. Les ingrédients passent donc en panneau escamotable — ouvert par
+ * un bouton de la barre, superposé pour ne rien décaler — et la barre tient sur
+ * une rangée, la position et la sortie remontant en tête d'écran.
+ */
+.cuisine-barre,
+.cuisine-entete {
+  display: none;
+}
+
+body.mode-cuisine {
+  overflow: hidden;
+}
+
+body.mode-cuisine .entete,
+body.mode-cuisine .pied,
+body.mode-cuisine .recette__image,
+body.mode-cuisine .recette__resume,
+body.mode-cuisine .criteres,
+body.mode-cuisine .recette__actions,
+body.mode-cuisine .variantes,
+body.mode-cuisine .recette__titre,
+body.mode-cuisine .recette__section--etapes > .recette__entete-section {
+  display: none;
+}
+
+body.mode-cuisine .contenu {
+  margin: 0;
+  max-width: none;
+  padding: 0;
+}
+
+body.mode-cuisine .recette {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+  position: relative;
+}
+
+body.mode-cuisine .recette__section {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* L'étape occupe tout ce qui reste, et son texte est centré dans cette place :
+   c'est la seule ligne qu'on lit de loin. */
+body.mode-cuisine .recette__section--etapes {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  /* `safe` : un centrage ordinaire rogne le haut d'un texte plus grand que sa
+     boîte, et le début de l'étape est justement ce qu'on relit. Là où le mot-clé
+     n'est pas reconnu, la déclaration tombe et le texte s'aligne en haut — ce qui
+     est le repli qu'on veut. */
+  justify-content: safe center;
+  overflow-y: auto;
+  padding: 1rem calc(1rem + env(safe-area-inset-right)) 1rem calc(1rem + env(safe-area-inset-left));
+}
+
+body.mode-cuisine .etapes {
+  margin: 0;
+  padding: 0;
+}
+
+/* Seule l'étape courante est affichée, en grand : à bout de bras, sur un plan de
+   travail, une liste de douze étapes ne se relit pas. */
+body.mode-cuisine .etape {
+  display: none;
+}
+
+body.mode-cuisine .etape[data-courante] {
+  display: block;
+  font-size: 1.4rem;
+  line-height: 1.45;
+  margin: 0 auto;
+  max-width: 34rem;
+  padding: 0;
+}
+
+/*
+ * L'étape d'après, en petit sous la courante.
+ *
+ * L'écran restait à moitié vide, et une étape seule ne dit pas ce qui vient :
+ * savoir qu'il faudra de l'eau bouillante permet de la lancer pendant qu'on coupe.
+ * Elle est estompée et plus petite — la courante reste ce qu'on lit à bout de
+ * bras — et son numéro la distingue sans qu'aucun intitulé n'ait à le dire.
+ */
+body.mode-cuisine .etape[data-suivante] {
+  border-top: 1px dashed var(--trait);
+  color: var(--encre-douce);
+  display: block;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  margin: 1.25rem auto 0;
+  max-width: 34rem;
+  padding: 0.9rem 0 0;
+}
+
+/* Sa case reste utilisable — on coche parfois en avance — mais elle ne réclame
+   pas la place d'une cible pleine tant qu'elle n'est pas l'étape en cours. */
+body.mode-cuisine .etape[data-suivante] .coche {
+  min-height: 0;
+  padding: 0;
+}
+
+body.mode-cuisine .etape[data-suivante] .coche__case {
+  height: 1.2rem;
+  width: 1.2rem;
+}
+
+body.mode-cuisine .etape[data-courante] .coche {
+  padding: 0.5rem 0;
+}
+
+body.mode-cuisine .etape[data-courante] .coche__case {
+  height: 1.8rem;
+  margin-top: 0.35rem;
+  width: 1.8rem;
+}
+
+/* Les intitulés de groupe disparaissent en mode cuisine. Une seule étape est à
+   l'écran : les laisser afficherait trois titres au-dessus d'elle, sans qu'aucun
+   ne corresponde forcément à l'étape en cours. La position, elle, est déjà dite
+   en tête d'écran — « Étape 3 sur 5 ». */
+body.mode-cuisine .etapes__groupe {
+  display: none;
+}
+
+/* Le panneau d'ingrédients : masqué, et superposé quand on le demande. Superposé
+   et non inséré, pour que l'ouvrir ne déplace pas l'étape qu'on est en train de
+   lire. */
+body.mode-cuisine .recette__section--ingredients {
+  display: none;
+}
+
+body.mode-cuisine .recette[data-ingredients-ouverts] .recette__section--ingredients {
+  background: var(--fond-carte);
+  border-bottom: 2px solid var(--accent);
+  display: block;
+  left: 0;
+  max-height: 70%;
+  overflow-y: auto;
+  padding: 0.75rem calc(0.75rem + env(safe-area-inset-right)) 0.75rem
+    calc(0.75rem + env(safe-area-inset-left));
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 3;
+}
+
+body.mode-cuisine .cuisine-entete {
+  align-items: center;
+  /* La tête d'écran est écrite après les sections dans le document — le gabarit
+     pose le cadre du mode en un bloc, à la fin de la fiche. C'est l'ordre de la
+     boîte flexible qui la remonte, plutôt qu'un morceau de gabarit ailleurs. */
+  order: -1;
+  border-bottom: 1px solid var(--trait);
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+  padding: 0 calc(0.5rem + env(safe-area-inset-right)) 0 calc(0.5rem + env(safe-area-inset-left));
+}
+
+.cuisine-entete__position {
+  color: var(--encre-douce);
+  font-size: 0.95rem;
+  margin: 0;
+  padding-left: 0.5rem;
+}
+
+.cuisine-entete__quitter {
+  background: none;
+  border: 0;
+  color: var(--encre-douce);
+  cursor: pointer;
+  font-size: 1.3rem;
+  line-height: 1;
+  min-height: var(--cible);
+  min-width: var(--cible);
+}
+
+body.mode-cuisine .cuisine-barre {
+  background: var(--fond-carte);
+  border-top: 1px solid var(--trait);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: auto;
+  /* La marge basse de sécurité évite que la barre passe sous l'indicateur
+     d'accueil de l'iPhone. */
+  padding: 0.5rem calc(0.5rem + env(safe-area-inset-right)) calc(0.5rem + env(safe-area-inset-bottom))
+    calc(0.5rem + env(safe-area-inset-left));
+}
+
+.cuisine-barre__rangee {
+  align-items: stretch;
+  display: flex;
+  gap: 0.4rem;
+}
+
+/* Deux grandes cibles en pied d'écran, atteignables au pouce d'une seule main.
+   Le balayage serait plus élégant et moins fiable avec les mains grasses. */
+.cuisine-barre__bouton {
+  background: var(--fond-doux);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon-pastille);
+  color: var(--encre);
+  cursor: pointer;
+  flex: 1 1 0;
+  font: inherit;
+  font-size: 1.05rem;
+  min-height: 52px;
+  padding: 0 0.5rem;
+}
+
+.cuisine-barre__bouton--suivant {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--fond-carte);
+  flex: 2 1 0;
+  font-weight: 600;
+}
+
+.cuisine-barre__ingredients {
+  background: var(--fond-doux);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon-pastille);
+  color: var(--encre);
+  cursor: pointer;
+  flex: 0 0 auto;
+  font: inherit;
+  font-size: 0.95rem;
+  min-height: 52px;
+  padding: 0 0.9rem;
+}
+
+.cuisine-barre__ingredients[aria-expanded="true"] {
+  background: var(--accent-doux);
+  border-color: var(--accent);
+}
+
+.cuisine-barre__degradation {
+  color: var(--alerte);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Sur un écran étroit, les mots des boutons de navigation cèdent la place aux
+   chevrons : le bouton reste aussi grand, seul son libellé raccourcit. */
+@media (max-width: 26rem) {
+  .cuisine-barre__bouton--precedent .cuisine-barre__mot {
+    clip-path: inset(50%);
+    position: absolute;
+  }
+}
+
+/* ------------------------------------------------------------------ favoris */
+
+.favoris__vide,
+.favoris__note {
+  color: var(--encre-douce);
+}
+
+.favoris__vide {
+  background: var(--fond-carte);
+  border: 1px dashed var(--trait);
+  border-radius: var(--rayon);
+  padding: 1rem 1.15rem;
+}
+
+.favori__absent {
+  color: var(--encre-douce);
+  font-size: 0.85rem;
+}
+
+/* Le bouton de retrait est posé sur la carte, au-dessus du lien qui la couvre. */
+.favori__retirer {
+  background: color-mix(in srgb, var(--fond-carte) 80%, transparent);
+  border: 0;
+  border-radius: var(--rayon-pastille);
+  color: var(--encre-douce);
+  cursor: pointer;
+  font-size: 1.3rem;
+  line-height: 1;
+  min-height: var(--cible);
+  min-width: var(--cible);
+  position: absolute;
+  right: 0.35rem;
+  top: calc(6px + 0.35rem);
+  z-index: 2;
+}
+
+.favori__retirer:hover,
+.favori__retirer:focus-visible {
+  color: var(--alerte);
+}
+
+/* ------------------------------------------------------------- large écran */
+
+@media (min-width: 48rem) {
+  .contenu {
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  h1 {
+    font-size: 2.1rem;
+  }
+
+  /* L'en-tête tient sur une rangée : la marque, le champ, la navigation. */
+  .entete__recherche {
+    flex: 1 1 12rem;
+    max-width: 26rem;
+    order: 0;
+  }
+
+  .entete__nav {
+    margin-left: 0;
+  }
+}
+
+/* Un lecteur qui a demandé moins de mouvement n'en reçoit aucun. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

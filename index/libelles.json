@@ -1,0 +1,105 @@
+{
+  "entrees": [
+    {
+      "id": "ail",
+      "libelle": "ail",
+      "normalise": "ail"
+    },
+    {
+      "id": "basilic-frais",
+      "libelle": "basilic frais",
+      "normalise": "basilic frais"
+    },
+    {
+      "id": "beurre-doux",
+      "libelle": "beurre doux",
+      "normalise": "beurre doux"
+    },
+    {
+      "id": "carotte",
+      "libelle": "carotte",
+      "normalise": "carotte"
+    },
+    {
+      "id": "celeri-branche",
+      "libelle": "céleri branche",
+      "normalise": "celeri branche"
+    },
+    {
+      "id": "eau",
+      "libelle": "eau",
+      "normalise": "eau"
+    },
+    {
+      "id": "farine-de-ble",
+      "libelle": "farine de blé",
+      "normalise": "farine de ble"
+    },
+    {
+      "id": "huile-d-olive",
+      "libelle": "huile d'olive",
+      "normalise": "huile d'olive"
+    },
+    {
+      "id": "lait-entier",
+      "libelle": "lait entier",
+      "normalise": "lait entier"
+    },
+    {
+      "id": "laurier",
+      "libelle": "laurier",
+      "normalise": "laurier"
+    },
+    {
+      "id": "oeuf",
+      "libelle": "œuf",
+      "normalise": "œuf"
+    },
+    {
+      "id": "oignon-jaune",
+      "libelle": "oignon jaune",
+      "normalise": "oignon jaune"
+    },
+    {
+      "id": "parmesan",
+      "libelle": "parmesan",
+      "normalise": "parmesan"
+    },
+    {
+      "id": "poireau",
+      "libelle": "poireau",
+      "normalise": "poireau"
+    },
+    {
+      "id": "poivre-noir",
+      "libelle": "poivre noir",
+      "normalise": "poivre noir"
+    },
+    {
+      "id": "sel-fin",
+      "libelle": "sel fin",
+      "normalise": "sel fin"
+    },
+    {
+      "id": "spaghetti",
+      "libelle": "spaghetti",
+      "normalise": "spaghetti"
+    },
+    {
+      "id": "sucre-en-poudre",
+      "libelle": "sucre en poudre",
+      "normalise": "sucre en poudre"
+    },
+    {
+      "id": "thym",
+      "libelle": "thym",
+      "normalise": "thym"
+    },
+    {
+      "id": "tomate-pelee",
+      "libelle": "tomate pelée",
+      "normalise": "tomate pelee"
+    },
+    null
+  ]
+}

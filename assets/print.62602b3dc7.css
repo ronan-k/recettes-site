@@ -1,0 +1,119 @@
+/*
+ * La feuille d'impression (R27).
+ *
+ * Elle opère sur le document **tel qu'il est**, pas sur une version reconstruite.
+ * C'est ce qui fait qu'une fiche portée à huit personnes s'imprime pour huit : les
+ * quantités affichées sont celles que le recalcul a écrites dans le document, et
+ * cette feuille ne les touche pas.
+ *
+ * Elle est liée en `media="print"` : le navigateur ne la fait pas bloquer le rendu
+ * de l'écran.
+ *
+ * Ce qui disparaît : tout ce qui ne se clique pas sur du papier — navigation,
+ * recherche, réglage d'échelle, pied de page. Ce qui reste :
+ * le titre, l'image, les critères, les ingrédients, les étapes.
+ */
+
+/* Sur papier, le contraste maximal et une encre économe. */
+:root {
+  --fond: #ffffff;
+  --fond-carte: #ffffff;
+  --encre: #000000;
+  --encre-douce: #333333;
+  --trait: #999999;
+  --accent: #000000;
+  --accent-doux: #ffffff;
+  --alerte: #000000;
+}
+
+@page {
+  margin: 15mm;
+}
+
+body {
+  background: #ffffff;
+  color: #000000;
+  font-size: 11pt;
+  line-height: 1.45;
+}
+
+/* Les surfaces sans usage sur papier. Chaque sélecteur ici doit exister dans les
+   gabarits : un sélecteur périmé ne masque plus rien, et ne le dit pas. */
+.saut-au-contenu,
+.entete,
+.pied,
+.echelle,
+.recherche,
+.bouton {
+  display: none !important;
+}
+
+.contenu {
+  margin: 0;
+  max-width: none;
+  padding: 0;
+}
+
+/* Un intitulé de groupe seul en bas de page n'annonce plus rien. */
+.etapes__groupe {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+/* Une étape coupée entre deux pages se relit mal les mains occupées. */
+.etape,
+.ingredient,
+.sous-recette,
+.variante,
+.critere {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.recette__section,
+.criteres {
+  break-inside: avoid-page;
+}
+
+h1,
+h2,
+h3 {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+/* L'image passe en petit : elle sert à reconnaître le plat, pas à remplir la
+   page. Et une photo pleine largeur vide une cartouche d'encre. */
+.recette__image {
+  max-width: 70mm;
+}
+
+.recette__image img {
+  max-height: 50mm;
+  object-fit: cover;
+}
+
+.carte__vignette {
+  display: none;
+}
+
+/* L'adresse de la fiche est imprimée une fois : c'est par elle qu'on la retrouve
+   après avoir plié la feuille. */
+.recette__titre::after {
+  color: #555555;
+  content: " — " attr(data-url-impression);
+  font-size: 9pt;
+  font-weight: normal;
+}
+
+a {
+  color: #000000;
+  text-decoration: none;
+}
+
+/* Les liens internes gardent leur texte sans leur adresse : imprimer chaque URL
+   de sous-recette rendrait la liste d'ingrédients illisible. */
+.sous-recettes a::after,
+.variantes a::after {
+  content: "";
+}

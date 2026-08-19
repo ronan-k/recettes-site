@@ -1,0 +1,33 @@
+name: Correction d'une recette
+description: Signaler une erreur, une imprécision ou un manque sur une recette publiée.
+title: "Correction : "
+labels: ["correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de proposer une correction. La recette sera modifiée dans le dépôt
+        source, puis republiée ici — vous n'avez rien à faire de plus.
+  - type: input
+    id: recette
+    attributes:
+      label: Recette concernée
+      description: L'identifiant de la recette, tel qu'il apparaît dans son adresse. Pré-rempli si vous êtes venu depuis la fiche.
+      placeholder: pate-a-crepes
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Ce qui ne va pas
+      description: Décrivez ce qui devrait changer, et pourquoi si ce n'est pas évident.
+      placeholder: La cuisson indique 20 minutes, mais il en faut 30 dans un four à chaleur tournante.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source, si vous en avez une
+      description: Un livre, une page, une personne. Facultatif.
+    validations:
+      required: false

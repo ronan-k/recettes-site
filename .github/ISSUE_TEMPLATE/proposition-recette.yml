@@ -1,0 +1,29 @@
+name: Proposition de recette
+description: Proposer une recette à ajouter au site. Aucune mise en forme n'est demandée.
+title: "Proposition : "
+labels: ["proposition"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Écrivez la recette comme elle vous vient — copiée d'un carnet, dictée, en
+        vrac. La mise en forme est notre travail, pas le vôtre : n'essayez pas de
+        respecter une structure.
+  - type: textarea
+    id: recette
+    attributes:
+      label: La recette
+      description: Ingrédients, étapes, tours de main. Dans l'ordre que vous voulez.
+      placeholder: |
+        Le gâteau au yaourt de ma grand-mère : un pot de yaourt, deux pots de sucre,
+        trois de farine, trois œufs, un demi-pot d'huile. 180 °C pendant 35 minutes,
+        elle disait « quand le couteau ressort sec ».
+    validations:
+      required: true
+  - type: input
+    id: origine
+    attributes:
+      label: D'où elle vient
+      description: Un livre, une famille, un restaurant. Facultatif, mais ça se garde avec la recette.
+    validations:
+      required: false

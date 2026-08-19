@@ -1,0 +1,3 @@
+# Les deux formulaires couvrent ce qu'un lecteur a à dire. Une issue vide
+# obligerait à redemander à chaque fois de quelle recette il s'agit.
+blank_issues_enabled: false

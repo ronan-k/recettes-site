@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Mes favoris — Recettes</title>
+    <meta name="description" content="Les recettes que vous avez marquées, gardées sur cet appareil." />
+    <meta name="theme-color" content="#b03a14" />
+    <link rel="manifest" href="/recettes-site/manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/recettes-site/assets/icons/icone-32.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/recettes-site/assets/icons/icone-120.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/recettes-site/assets/icons/icone-152.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/recettes-site/assets/icons/icone-167.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/recettes-site/assets/icons/icone-180.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Recettes" />
+    <link rel="stylesheet" href="/recettes-site/assets/style.49aa96aaf2.css" />
+    <link rel="stylesheet" media="print" href="/recettes-site/assets/print.62602b3dc7.css" />
+    <link rel="canonical" href="https://ronan-k.github.io/recettes-site/favoris/" />
+    <meta property="og:site_name" content="Recettes" />
+    <meta property="og:title" content="Mes favoris — Recettes" />
+    <meta property="og:description" content="Les recettes que vous avez marquées, gardées sur cet appareil." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://ronan-k.github.io/recettes-site/favoris/" />
+    <meta property="og:image" content="https://ronan-k.github.io/recettes-site/assets/partage-defaut.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://ronan-k.github.io/recettes-site/assets/partage-defaut.png" />
+    <script type="module" src="/recettes-site/assets/favoris.34aae9a13b.js"></script>
+  </head>
+  <body class="page-favoris">
+    <a class="saut-au-contenu" href="#contenu">Aller au contenu</a>
+    <header class="entete">
+      <div class="entete__interieur">
+        <a class="entete__marque" href="/recettes-site/">Recettes</a>
+
+        <!--
+          La recherche est en haut, sur toute page, et c'est un formulaire `GET`
+          vers la page de recherche : les autres pages ne chargent pas le module de
+          recherche, et un champ muet à la touche Entrée serait un piège. La page de
+          recherche lit `?q=` à l'ouverture — ce qui rend une recherche partageable.
+        -->
+        <form class="entete__recherche" role="search" action="/recettes-site/recherche/" method="get">
+          <label class="visuellement-cache" for="recherche-entete">Chercher une recette</label>
+          <input
+            class="entete__champ"
+            id="recherche-entete"
+            name="q"
+            type="search"
+            autocomplete="off"
+            enterkeyhint="search"
+            placeholder="Chercher une recette…"
+          />
+          <button class="entete__loupe" type="submit" aria-label="Chercher">⌕</button>
+        </form>
+      <nav class="entete__nav" aria-label="Navigation principale">
+        <a href="/recettes-site/recherche/">Rechercher</a>
+        <a href="/recettes-site/favoris/">Favoris</a>
+      </nav>
+      </div>
+    </header>
+    <main id="contenu" class="contenu">
+      <section
+  class="favoris"
+  data-favoris
+  data-base="/recettes-site/"
+  data-source-recherche="/recettes-site/index/recherche.json"
+  data-source-slugs-retires="/recettes-site/index/slugs-retires.json"
+>
+  <h1 class="favoris__titre">Mes favoris</h1>
+
+  <p class="favoris__note" data-zone="non-persistant" hidden>
+    Votre navigateur n'enregistre rien de façon durable&nbsp;— en navigation privée,
+    par exemple. Vos favoris disparaîtront à la fermeture de cet onglet.
+  </p>
+
+  <!--
+    La page vide est du contenu, pas une absence : quelqu'un qui l'ouvre avant
+    d'avoir rien marqué doit apprendre comment marquer (R47).
+  -->
+  <div class="favoris__vide" data-zone="vide">
+    <p>Vous n'avez pas encore de favori.</p>
+    <p>
+      Sur une fiche de recette, le bouton <strong>☆ Mettre en favori</strong> sous le
+      titre l'ajoute ici. Les favoris restent sur cet appareil&nbsp;: aucun compte,
+      rien d'envoyé.
+    </p>
+    <p><a class="bouton" href="/recettes-site/recherche/">Chercher une recette</a></p>
+  </div>
+
+  <ul class="catalogue" data-role="liste" hidden></ul>
+
+  <noscript>
+    <p class="favoris__note">Les favoris ont besoin de JavaScript, parce qu'ils
+      vivent sur votre appareil et nulle part ailleurs.</p>
+  </noscript>
+</section>
+
+    </main>
+    <footer class="pied">
+      <p>Recettes — site statique, sans compte ni traceur.</p>
+    </footer>
+  </body>
+</html>

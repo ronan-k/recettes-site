@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Rechercher — Recettes</title>
+    <meta name="description" content="Chercher une recette par titre, catégorie, ingrédients ou temps disponible." />
+    <meta name="theme-color" content="#b03a14" />
+    <link rel="manifest" href="/recettes-site/manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/recettes-site/assets/icons/icone-32.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/recettes-site/assets/icons/icone-120.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/recettes-site/assets/icons/icone-152.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/recettes-site/assets/icons/icone-167.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/recettes-site/assets/icons/icone-180.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Recettes" />
+    <link rel="stylesheet" href="/recettes-site/assets/style.49aa96aaf2.css" />
+    <link rel="stylesheet" media="print" href="/recettes-site/assets/print.62602b3dc7.css" />
+    <link rel="canonical" href="https://ronan-k.github.io/recettes-site/recherche/" />
+    <meta property="og:site_name" content="Recettes" />
+    <meta property="og:title" content="Rechercher — Recettes" />
+    <meta property="og:description" content="Chercher une recette par titre, catégorie, ingrédients ou temps disponible." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://ronan-k.github.io/recettes-site/recherche/" />
+    <meta property="og:image" content="https://ronan-k.github.io/recettes-site/assets/partage-defaut.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://ronan-k.github.io/recettes-site/assets/partage-defaut.png" />
+    <script type="module" src="/recettes-site/assets/recherche.ee2c466bf7.js"></script>
+  </head>
+  <body class="page-recherche">
+    <a class="saut-au-contenu" href="#contenu">Aller au contenu</a>
+    <header class="entete">
+      <div class="entete__interieur">
+        <a class="entete__marque" href="/recettes-site/">Recettes</a>
+
+        <!--
+          La recherche est en haut, sur toute page, et c'est un formulaire `GET`
+          vers la page de recherche : les autres pages ne chargent pas le module de
+          recherche, et un champ muet à la touche Entrée serait un piège. La page de
+          recherche lit `?q=` à l'ouverture — ce qui rend une recherche partageable.
+        -->
+        <form class="entete__recherche" role="search" action="/recettes-site/recherche/" method="get">
+          <label class="visuellement-cache" for="recherche-entete">Chercher une recette</label>
+          <input
+            class="entete__champ"
+            id="recherche-entete"
+            name="q"
+            type="search"
+            autocomplete="off"
+            enterkeyhint="search"
+            placeholder="Chercher une recette…"
+          />
+          <button class="entete__loupe" type="submit" aria-label="Chercher">⌕</button>
+        </form>
+      <nav class="entete__nav" aria-label="Navigation principale">
+        <a href="/recettes-site/recherche/">Rechercher</a>
+        <a href="/recettes-site/favoris/">Favoris</a>
+      </nav>
+      </div>
+    </header>
+    <main id="contenu" class="contenu">
+      <div
+  class="recherche"
+  data-recherche
+  data-base="/recettes-site/"
+  data-source-recherche="/recettes-site/index/recherche.json"
+  data-source-libelles="/recettes-site/index/libelles.json"
+  data-source-inverse="/recettes-site/index/index-inverse.json"
+  data-en-avant="pate-a-crepes,spaghetti-a-la-tomate"
+>
+  <h1 class="recherche__titre">Rechercher une recette</h1>
+
+  <form class="recherche__form" role="search" onsubmit="return false">
+    <!--
+      Le champ texte est le premier élément et le plus grand : c'est par lui qu'on
+      arrive, et les filtres ne servent qu'ensuite. L'étiquette existe pour un
+      lecteur d'écran (R49) ; à l'écran, l'exemple dans le champ suffit et rend
+      une ligne de hauteur à la liste des résultats.
+    -->
+    <label class="visuellement-cache" for="recherche-texte">Titre, tag ou ingrédient</label>
+    <input
+      class="recherche__champ recherche__champ--principal"
+      id="recherche-texte"
+      data-role="texte"
+      type="search"
+      autocomplete="off"
+      enterkeyhint="search"
+      placeholder="Titre, tag ou ingrédient — crêpes, gratin…"
+    />
+
+    <label class="recherche__label" for="recherche-temps">Temps disponible</label>
+    <select class="recherche__champ" id="recherche-temps" data-role="temps">
+      <option value="0">Peu importe</option>
+      <option value="15">15 minutes</option>
+      <option value="30">30 minutes</option>
+      <option value="60">1 heure</option>
+      <option value="120">2 heures</option>
+    </select>
+
+    <fieldset class="recherche__bloc">
+      <legend>Catégories</legend>
+      <ul class="facettes" data-zone="facettes"></ul>
+    </fieldset>
+
+    <!--
+      Les ingrédients sont un filtre secondaire, et déplié ce bloc occupe un écran
+      de téléphone à lui seul — les résultats passaient sous la ligne de flottaison.
+      `details` le replie sans JavaScript.
+    -->
+    <details class="recherche__depliant">
+      <summary>Filtrer par ingrédients</summary>
+
+      <label class="recherche__label" for="recherche-ingredient">Ajouter un ingrédient</label>
+      <div class="autocomplete">
+        <input
+          class="recherche__champ"
+          id="recherche-ingredient"
+          data-role="ingredient"
+          type="text"
+          autocomplete="off"
+        />
+        <ul class="autocomplete__liste" id="recherche-suggestions" data-role="suggestions" hidden></ul>
+      </div>
+      <p class="visuellement-cache" data-role="annonce" role="status" aria-live="polite"></p>
+
+      <ul class="pastilles" data-zone="pastilles" aria-label="Ingrédients retenus"></ul>
+
+      <!--
+        La règle du filtre est écrite, puisqu'elle n'est plus portée par un choix
+        de mode : sans cette phrase, le lecteur ne peut pas savoir si la liste
+        veut dire « au moins un » ou « rien d'autre ».
+      -->
+      <p class="recherche__aide">
+        Les recettes qui utilisent au moins un de ces ingrédients. Le reste
+        s'adapte&nbsp;: une recette ne disparaît pas parce qu'il vous manque une
+        épice.
+      </p>
+    </details>
+  </form>
+
+  <!--
+    Les quatre états sont dans le document, masqués : chacun a une place réservée
+    dans la mise en page, et aucun n'est produit par une branche oubliée. Ils sont
+    réunis dans une colonne, qui devient la seconde colonne de la grille sur écran
+    large — les filtres tenant la première.
+  -->
+  <div class="recherche__colonne">
+    <p class="recherche__etat recherche__etat--chargement" data-zone="chargement" role="status">
+      Chargement de l'index des recettes…
+    </p>
+
+    <div class="recherche__etat recherche__etat--erreur" data-zone="erreur" role="alert" hidden>
+      <p>L'index des recettes n'a pas pu être chargé. Rien n'est perdu&nbsp;: le catalogue reste
+        accessible depuis <a href="/recettes-site/">l'accueil</a>.</p>
+      <button type="button" class="bouton" data-role="reessayer">Réessayer</button>
+    </div>
+
+    <p class="recherche__etat recherche__etat--vide" data-zone="vide" hidden>
+      Aucune recette ne réunit tous ces critères. Essayez d'en retirer un.
+    </p>
+
+    <section class="recherche__resultats" data-zone="resultats" aria-live="polite" hidden>
+      <h2 class="recherche__compte" data-role="compte"></h2>
+      <ul class="catalogue" data-role="liste"></ul>
+      <button type="button" class="bouton" data-role="plus" hidden></button>
+      <div class="recherche__inconnues" data-role="duree-inconnue" hidden></div>
+    </section>
+
+    <noscript>
+      <p class="recherche__etat">La recherche a besoin de JavaScript. Le
+        <a href="/recettes-site/">catalogue complet</a> reste consultable sans.</p>
+    </noscript>
+  </div>
+</div>
+
+    </main>
+    <footer class="pied">
+      <p>Recettes — site statique, sans compte ni traceur.</p>
+    </footer>
+  </body>
+</html>

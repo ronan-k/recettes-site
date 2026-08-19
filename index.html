@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Recettes</title>
+    <meta name="description" content="Les recettes de la maison, consultables depuis la cuisine." />
+    <meta name="theme-color" content="#b03a14" />
+    <link rel="manifest" href="/recettes-site/manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/recettes-site/assets/icons/icone-32.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/recettes-site/assets/icons/icone-120.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/recettes-site/assets/icons/icone-152.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/recettes-site/assets/icons/icone-167.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/recettes-site/assets/icons/icone-180.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Recettes" />
+    <link rel="stylesheet" href="/recettes-site/assets/style.49aa96aaf2.css" />
+    <link rel="stylesheet" media="print" href="/recettes-site/assets/print.62602b3dc7.css" />
+    <link rel="canonical" href="https://ronan-k.github.io/recettes-site/" />
+    <meta property="og:site_name" content="Recettes" />
+    <meta property="og:title" content="Recettes" />
+    <meta property="og:description" content="Les recettes de la maison, consultables depuis la cuisine." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://ronan-k.github.io/recettes-site/" />
+    <meta property="og:image" content="https://ronan-k.github.io/recettes-site/assets/partage-defaut.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://ronan-k.github.io/recettes-site/assets/partage-defaut.png" />
+    
+  </head>
+  <body class="page-accueil">
+    <a class="saut-au-contenu" href="#contenu">Aller au contenu</a>
+    <header class="entete">
+      <div class="entete__interieur">
+        <a class="entete__marque" href="/recettes-site/">Recettes</a>
+
+        <!--
+          La recherche est en haut, sur toute page, et c'est un formulaire `GET`
+          vers la page de recherche : les autres pages ne chargent pas le module de
+          recherche, et un champ muet à la touche Entrée serait un piège. La page de
+          recherche lit `?q=` à l'ouverture — ce qui rend une recherche partageable.
+        -->
+        <form class="entete__recherche" role="search" action="/recettes-site/recherche/" method="get">
+          <label class="visuellement-cache" for="recherche-entete">Chercher une recette</label>
+          <input
+            class="entete__champ"
+            id="recherche-entete"
+            name="q"
+            type="search"
+            autocomplete="off"
+            enterkeyhint="search"
+            placeholder="Chercher une recette…"
+          />
+          <button class="entete__loupe" type="submit" aria-label="Chercher">⌕</button>
+        </form>
+      <nav class="entete__nav" aria-label="Navigation principale">
+        <a href="/recettes-site/recherche/">Rechercher</a>
+        <a href="/recettes-site/favoris/">Favoris</a>
+      </nav>
+      </div>
+    </header>
+    <main id="contenu" class="contenu">
+      <h1 class="accueil__titre">Recettes</h1>
+<p class="accueil__intro">Les recettes de la maison, consultables depuis la cuisine.</p>
+
+<section class="accueil__section accueil__section--avant" aria-labelledby="titre-avant">
+  <h2 id="titre-avant">À essayer</h2>
+  <ul class="catalogue catalogue--avant">
+    <li class="carte" data-categorie="dessert"><a class="carte__lien" href="/recettes-site/recettes/pate-a-crepes/"><span class="carte__corps"><span class="carte__categorie">Dessert</span><span class="carte__titre">Pâte à crêpes</span><span class="carte__meta"><span class="carte__duree">1 h 30</span></span></span></a></li>
+    <li class="carte" data-categorie="plat-principal"><a class="carte__lien" href="/recettes-site/recettes/spaghetti-a-la-tomate/"><span class="carte__corps"><span class="carte__categorie">Plat principal</span><span class="carte__titre">Spaghetti à la tomate</span><span class="carte__meta"><span class="carte__duree">35 min</span></span></span></a></li>
+  </ul>
+</section>
+
+<section class="accueil__section" aria-labelledby="titre-catalogue">
+  <h2 id="titre-catalogue">2 recettes</h2>
+  <ul class="catalogue">
+        <li class="carte" data-categorie="dessert"><a class="carte__lien" href="/recettes-site/recettes/pate-a-crepes/"><span class="carte__corps"><span class="carte__categorie">Dessert</span><span class="carte__titre">Pâte à crêpes</span><span class="carte__meta"><span class="carte__duree">1 h 30</span></span></span></a></li>
+    <li class="carte" data-categorie="plat-principal"><a class="carte__lien" href="/recettes-site/recettes/spaghetti-a-la-tomate/"><span class="carte__corps"><span class="carte__categorie">Plat principal</span><span class="carte__titre">Spaghetti à la tomate</span><span class="carte__meta"><span class="carte__duree">35 min</span></span></span></a></li>
+  </ul>
+</section>
+
+    </main>
+    <footer class="pied">
+      <p>Recettes — site statique, sans compte ni traceur.</p>
+    </footer>
+  </body>
+</html>

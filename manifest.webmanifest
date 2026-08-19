@@ -1,0 +1,55 @@
+{
+  "name": "Recettes",
+  "short_name": "Recettes",
+  "description": "Les recettes de la maison, consultables depuis la cuisine.",
+  "lang": "fr",
+  "start_url": "/recettes-site/",
+  "scope": "/recettes-site/",
+  "display": "standalone",
+  "background_color": "#fbf9f5",
+  "theme_color": "#8a4b26",
+  "icons": [
+    {
+      "src": "/recettes-site/assets/icons/icone-32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/recettes-site/assets/icons/icone-120.png",
+      "sizes": "120x120",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/recettes-site/assets/icons/icone-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/recettes-site/assets/icons/icone-167.png",
+      "sizes": "167x167",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/recettes-site/assets/icons/icone-180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/recettes-site/assets/icons/icone-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/recettes-site/assets/icons/icone-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
